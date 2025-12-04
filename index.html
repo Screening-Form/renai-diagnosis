@@ -3,207 +3,459 @@
 <head>
   <meta charset="UTF-8" />
   <title>あなたの恋愛スタイル診断</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
       margin: 0;
-      padding: 0;
-      background: #fff7fb;
-      color: #333;
+      font-family: "Hiragino Sans", "游ゴシック", system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #ffd3e3;
     }
-    header {
-      background: #ff8fb3;
-      color: #fff;
-      padding: 16px;
-      text-align: center;
-    }
-    main {
-      max-width: 900px;
+    .wrapper {
+      max-width: 840px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 32px 16px 64px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 24px 32px;
+      box-shadow: 0 6px 16px rgba(255, 105, 180, 0.2);
     }
     h1 {
-      font-size: 1.6rem;
-      margin: 0;
+      text-align: center;
+      margin: 0 0 16px;
+      font-size: 24px;
+      letter-spacing: 0.08em;
+      color: #ff4b8a;
     }
-    h2 {
-      font-size: 1.2rem;
-      margin-top: 24px;
-      margin-bottom: 8px;
+    .lead {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.6;
     }
     .question {
-      border-radius: 8px;
-      background: #ffffff;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+      padding: 16px 16px 4px;
+      border-radius: 10px;
+      background: #fff7fb;
+      border: 1px solid #ffd0e6;
     }
-    .q-title {
+    .question-title {
       font-weight: 600;
       margin-bottom: 8px;
+      font-size: 14px;
+      color: #444;
+    }
+    .options {
+      margin-left: 4px;
     }
     .options label {
       display: block;
       margin-bottom: 4px;
+      font-size: 14px;
       cursor: pointer;
+    }
+    .options input {
+      margin-right: 4px;
     }
     .submit-wrap {
       text-align: center;
-      margin: 24px 0 16px;
+      margin: 28px 0 8px;
     }
-    button {
-      appearance: none;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 28px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: #ff5c8d;
+    button#submitBtn {
+      background: #ff4b8a;
       color: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: none;
+      padding: 10px 32px;
+      font-size: 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      box-shadow: 0 4px 10px rgba(255, 75, 138, 0.4);
     }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      box-shadow: none;
+    button#submitBtn:hover {
+      opacity: 0.9;
+      transform: translateY(1px);
     }
-    .result {
-      display: none;
-      border-radius: 12px;
-      background: #fff;
-      padding: 16px 18px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-      margin-bottom: 40px;
+    .result-card {
+      margin-top: 24px;
+      padding: 20px 16px 16px;
+      border-radius: 10px;
+      background: #fff0f7;
+      border: 1px solid #ffc2df;
     }
     .result-title {
       font-weight: 700;
+      margin-bottom: 8px;
+      color: #ff4b8a;
+    }
+    .result-main-score {
+      font-size: 16px;
+      font-weight: 700;
       margin-bottom: 4px;
     }
-    .score-big {
-      font-size: 1.4rem;
-      font-weight: 700;
+    .type-label {
+      font-size: 15px;
       margin-bottom: 8px;
     }
-    .range-note {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 8px;
+    .category-list {
+      margin: 8px 0 10px;
+      font-size: 13px;
+      line-height: 1.7;
     }
-    footer {
+    .result-message {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .note {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #888;
       text-align: center;
-      font-size: 0.8rem;
-      color: #777;
-      padding: 16px;
+      line-height: 1.6;
+    }
+    @media (max-width: 600px) {
+      .card {
+        padding: 18px 14px 26px;
+      }
+      .question {
+        padding: 12px 10px 2px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>あなたの恋愛スタイル診断</h1>
-  </header>
+  <div class="wrapper">
+    <div class="card">
+      <h1>あなたの恋愛スタイル診断</h1>
+      <p class="lead">
+        15問に答えると、あなたの恋愛スタイルの傾向とスコアをチェックできます。<br />
+        （A〜Eのどれかを1つ選んでください）
+      </p>
 
-  <main>
-    <p>15問に答えると、あなたの恋愛スタイルの傾向をスコアでチェックできます。<br>
-    全問必須です。（A〜Eのどれかを1つ選んでください）</p>
-
-    <form id="quizForm">
-      <!-- Q1〜Q15：とりあえず合計スコアだけ判定。内容はあとから差し替え／調整OK -->
-      <div class="question" data-q="1">
-        <div class="q-title">1. 初対面の異性と話す時、どのくらい自然に話せますか？</div>
-        <div class="options">
-          <label><input type="radio" name="q1" value="5"> ほぼ緊張せず会話できる</label>
-          <label><input type="radio" name="q1" value="4"> 少し緊張するが普通に話せる</label>
-          <label><input type="radio" name="q1" value="3"> 会話に困る時がある</label>
-          <label><input type="radio" name="q1" value="2"> かなり緊張する</label>
-          <label><input type="radio" name="q1" value="1"> 会話がうまくできない</label>
+      <form id="quizForm">
+        <!-- Q1 -->
+        <div class="question">
+          <div class="question-title">
+            1. 初対面の異性と話す時、どのくらい自然に話せますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q1" value="5" />ほぼ緊張せず会話できる</label>
+            <label><input type="radio" name="q1" value="4" />少し緊張するが普通に話せる</label>
+            <label><input type="radio" name="q1" value="3" />会話に困る時がある</label>
+            <label><input type="radio" name="q1" value="2" />かなり緊張する</label>
+            <label><input type="radio" name="q1" value="1" />会話がうまくできない</label>
+          </div>
         </div>
-      </div>
 
-      <!-- ここから下は、Typeform で使っていた Q2〜Q15 をそのままコピペしてOK。
-           いったん全部「value=5〜1」にしておけば合計点だけ出ます。 -->
-
-      <div class="question" data-q="2">
-        <div class="q-title">2. 相手の気持ちや意図を理解しようとする姿勢は？</div>
-        <div class="options">
-          <label><input type="radio" name="q2" value="5"> いつも意識している</label>
-          <label><input type="radio" name="q2" value="4"> けっこう意識している</label>
-          <label><input type="radio" name="q2" value="3"> どちらともいえない</label>
-          <label><input type="radio" name="q2" value="2"> あまり意識しない</label>
-          <label><input type="radio" name="q2" value="1"> ほぼ意識しない</label>
+        <!-- Q2 -->
+        <div class="question">
+          <div class="question-title">
+            2. 相手の気持ちや意図を理解しようとする姿勢は？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q2" value="5" />いつも意識している</label>
+            <label><input type="radio" name="q2" value="4" />けっこう意識している</label>
+            <label><input type="radio" name="q2" value="3" />どちらともいえない</label>
+            <label><input type="radio" name="q2" value="2" />あまり意識しない</label>
+            <label><input type="radio" name="q2" value="1" />ほぼ意識しない</label>
+          </div>
         </div>
+
+        <!-- Q3 -->
+        <div class="question">
+          <div class="question-title">
+            3. 気持ちや思っていることを、相手にわかるように伝えるのは得意ですか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q3" value="5" />とても得意</label>
+            <label><input type="radio" name="q3" value="4" />けっこう得意</label>
+            <label><input type="radio" name="q3" value="3" />ときどき難しい</label>
+            <label><input type="radio" name="q3" value="2" />あまり得意じゃない</label>
+            <label><input type="radio" name="q3" value="1" />かなり苦手</label>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question">
+          <div class="question-title">
+            4. 恋をすると、あなたは自分のペースを保てますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q4" value="5" />しっかり保てる</label>
+            <label><input type="radio" name="q4" value="4" />ほぼ保てる</label>
+            <label><input type="radio" name="q4" value="3" />揺らぐことがある</label>
+            <label><input type="radio" name="q4" value="2" />相手中心になりすぎることが多い</label>
+            <label><input type="radio" name="q4" value="1" />いつも相手に振り回される</label>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question">
+          <div class="question-title">
+            5. 好きな人との距離感をつかむのは得意ですか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q5" value="5" />かなり得意</label>
+            <label><input type="radio" name="q5" value="4" />だいたい得意</label>
+            <label><input type="radio" name="q5" value="3" />ときどき迷う</label>
+            <label><input type="radio" name="q5" value="2" />うまく距離が取れないことが多い</label>
+            <label><input type="radio" name="q5" value="1" />ほぼいつも距離感を間違える</label>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question">
+          <div class="question-title">
+            6. あなたは、相手の本質や性格を見抜くのが得意ですか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q6" value="5" />かなり得意</label>
+            <label><input type="radio" name="q6" value="4" />だいたい合っている</label>
+            <label><input type="radio" name="q6" value="3" />まあまあ当たる</label>
+            <label><input type="radio" name="q6" value="2" />けっこう間違えることが多い</label>
+            <label><input type="radio" name="q6" value="1" />よく見誤る</label>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question">
+          <div class="question-title">
+            7. 相手に合わせすぎず、自分の意見や希望を言える方ですか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q7" value="5" />しっかり言える</label>
+            <label><input type="radio" name="q7" value="4" />だいたい言える</label>
+            <label><input type="radio" name="q7" value="3" />ときどき我慢してしまう</label>
+            <label><input type="radio" name="q7" value="2" />けっこう言えないことが多い</label>
+            <label><input type="radio" name="q7" value="1" />ほとんど言えない</label>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question">
+          <div class="question-title">
+            8. 相手の気持ちや立場を思いやって行動できる方ですか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q8" value="5" />かなりできる</label>
+            <label><input type="radio" name="q8" value="4" />だいたいできる</label>
+            <label><input type="radio" name="q8" value="3" />ときどきできる</label>
+            <label><input type="radio" name="q8" value="2" />あまりできない</label>
+            <label><input type="radio" name="q8" value="1" />ほとんどできない</label>
+          </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question">
+          <div class="question-title">
+            9. 自分の感情や気持ちに、ちゃんと気づける方ですか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q9" value="5" />いつも気づける</label>
+            <label><input type="radio" name="q9" value="4" />だいたい気づける</label>
+            <label><input type="radio" name="q9" value="3" />ときどき混乱する</label>
+            <label><input type="radio" name="q9" value="2" />自分の気持ちがよくわからない</label>
+            <label><input type="radio" name="q9" value="1" />ほとんど気づけない</label>
+          </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question">
+          <div class="question-title">
+            10. 気になる人に対して、相手のテンポに合わせて進められますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q10" value="5" />かなり合わせられる</label>
+            <label><input type="radio" name="q10" value="4" />だいたい合わせられる</label>
+            <label><input type="radio" name="q10" value="3" />たまにズレる</label>
+            <label><input type="radio" name="q10" value="2" />けっこうズレる</label>
+            <label><input type="radio" name="q10" value="1" />ほぼズレっぱなし</label>
+          </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question">
+          <div class="question-title">
+            11. 恋愛で期待しすぎず、現実的に相手を見ることができますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q11" value="5" />かなりできる</label>
+            <label><input type="radio" name="q11" value="4" />だいたいできる</label>
+            <label><input type="radio" name="q11" value="3" />ときどき理想化する</label>
+            <label><input type="radio" name="q11" value="2" />理想を投影してしまう</label>
+            <label><input type="radio" name="q11" value="1" />ほぼ現実が見えない</label>
+          </div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="question">
+          <div class="question-title">
+            12. 親しい関係になっても、ひとりの時間を大切にできますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q12" value="5" />しっかりできる</label>
+            <label><input type="radio" name="q12" value="4" />だいたいできる</label>
+            <label><input type="radio" name="q12" value="3" />どちらともいえない</label>
+            <label><input type="radio" name="q12" value="2" />ひとりでいるのが不安</label>
+            <label><input type="radio" name="q12" value="1" />いつも相手と一緒にいたい</label>
+          </div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="question">
+          <div class="question-title">
+            13. 恋愛の失敗や経験から学びを活かせていますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q13" value="5" />かなり活かせている</label>
+            <label><input type="radio" name="q13" value="4" />だいたい活かせている</label>
+            <label><input type="radio" name="q13" value="3" />たまに活かす</label>
+            <label><input type="radio" name="q13" value="2" />あまり活かせていない</label>
+            <label><input type="radio" name="q13" value="1" />ほぼ同じ失敗を繰り返す</label>
+          </div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="question">
+          <div class="question-title">
+            14. 相手に合わせるだけでなく、関係を一緒に作る意識はありますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q14" value="5" />強くある</label>
+            <label><input type="radio" name="q14" value="4" />けっこうある</label>
+            <label><input type="radio" name="q14" value="3" />どちらともいえない</label>
+            <label><input type="radio" name="q14" value="2" />あまりない</label>
+            <label><input type="radio" name="q14" value="1" />相手任せになりがち</label>
+          </div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="question">
+          <div class="question-title">
+            15. 信頼関係ができるまで、焦らずゆっくり進められますか？
+          </div>
+          <div class="options">
+            <label><input type="radio" name="q15" value="5" />とてもできる</label>
+            <label><input type="radio" name="q15" value="4" />だいたいできる</label>
+            <label><input type="radio" name="q15" value="3" />ときどき焦る</label>
+            <label><input type="radio" name="q15" value="2" />けっこう焦る</label>
+            <label><input type="radio" name="q15" value="1" />いつも急ぎがち</label>
+          </div>
+        </div>
+
+        <div class="submit-wrap">
+          <button type="button" id="submitBtn">結果を見る</button>
+        </div>
+      </form>
+
+      <div id="result" class="result-card" style="display:none;">
+        <div class="result-title">診断結果</div>
+        <div class="result-main-score" id="mainScore"></div>
+        <div class="type-label" id="typeLabel"></div>
+        <div class="category-list" id="categoryScores"></div>
+        <div class="result-message" id="typeMessage"></div>
       </div>
 
-      <!-- ……同じパターンで Q3〜Q15 を追加 …… -->
-      <!-- 面倒ならまずは Q5 くらいまででテスト → 後から残りを足してもOK -->
-
-      <div class="submit-wrap">
-        <button type="submit" id="submitBtn">結果を見る</button>
-      </div>
-    </form>
-
-    <section class="result" id="resultBox">
-      <div class="result-title">診断結果</div>
-      <div class="score-big" id="scoreText"></div>
-      <div class="range-note" id="rangeText"></div>
-      <p id="messageText"></p>
-    </section>
-  </main>
-
-  <footer>
-    ※この診断はあくまで自己理解のきっかけとしてご利用ください。
-  </footer>
+      <p class="note">
+        ※この診断はあくまでセルフチェック用の簡易ツールです。<br />
+        結果を絶対視せず、自分を見つめ直すきっかけとしてご利用ください。
+      </p>
+    </div>
+  </div>
 
   <script>
-    const form = document.getElementById('quizForm');
-    const resultBox = document.getElementById('resultBox');
-    const scoreText = document.getElementById('scoreText');
-    const rangeText = document.getElementById('rangeText');
-    const messageText = document.getElementById('messageText');
+    function getValue(name) {
+      const checked = document.querySelector(
+        'input[name="' + name + '"]:checked'
+      );
+      return checked ? Number(checked.value) : null;
+    }
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      // まず回答チェック（未回答があればアラート）
-      const qBlocks = document.querySelectorAll('.question');
-      let totalScore = 0;
-      for (const q of qBlocks) {
-        const name = 'q' + q.dataset.q;
-        const checked = form.querySelector('input[name="' + name + '"]:checked');
-        if (!checked) {
-          alert('問 ' + q.dataset.q + ' が未回答です。');
+    document.getElementById("submitBtn").addEventListener("click", function () {
+      const answers = [];
+      for (let i = 1; i <= 15; i++) {
+        const v = getValue("q" + i);
+        if (v === null) {
+          alert("まだ答えていない質問があります（" + i + "問目）。");
           return;
         }
-        totalScore += Number(checked.value);
+        answers[i] = v;
       }
 
-      // 最大点（質問数×5）を計算
-      const maxScore = qBlocks.length * 5;
+      // トータルスコア（最大75）
+      const totalScore = answers.slice(1).reduce((a, b) => a + b, 0);
 
-      scoreText.textContent = `あなたの恋愛能力指数： ${totalScore} / ${maxScore}`;
+      // カテゴリ別スコア
+      // 自己軸：Q4,7,9,15（/20）
+      const selfAxis =
+        answers[4] + answers[7] + answers[9] + answers[15];
 
-      // ざっくり3段階のコメント（後で細かく調整OK）
-      let msg = '';
-      let range = '';
-      const ratio = totalScore / maxScore;
+      // 共感力：Q2,8,10,14（/20）
+      const empathy =
+        answers[2] + answers[8] + answers[10] + answers[14];
 
-      if (ratio >= 0.75) {
-        range = 'かなり高めの恋愛ポテンシャルです。';
-        msg = '自分軸と相手への思いやりのバランスが良く、恋愛を前向きに楽しめるタイプ。今の感覚を大事にしつつ、パターン化したクセだけ整えていくとさらに安定します。';
-      } else if (ratio >= 0.5) {
-        range = '平均〜やや高めのゾーンです。';
-        msg = '基本的な恋愛力は備わっていますが、状況や相手によってムラが出やすい傾向も。今回の質問の中で「2」や「1」を選んだところが、今後の伸びしろポイントです。';
+      // 距離感調整：Q5,11,12（/15）
+      const distance = answers[5] + answers[11] + answers[12];
+
+      // コミュ力：Q1,3（/10）
+      const communication = answers[1] + answers[3];
+
+      // 自己理解：Q6,13（/10）
+      const selfUnderstanding = answers[6] + answers[13];
+
+      // タイプ判定（ざっくり4区分）
+      let typeLabel = "";
+      let typeMessage = "";
+      if (totalScore >= 60) {
+        typeLabel = "バランス恋愛マスタータイプ";
+        typeMessage =
+          "自己軸・共感・距離感のバランスが良く、安定した関係を築きやすいタイプです。今の感覚を大切にしつつ、パターン化したクセだけ整えていくとさらに安定します。";
+      } else if (totalScore >= 45) {
+        typeLabel = "成長途中の実直タイプ";
+        typeMessage =
+          "基本的には誠実でまっすぐですが、状況によってはブレたり我慢しすぎることも。どこで無理しているかを知ると、もっと楽に恋愛を楽しめます。";
+      } else if (totalScore >= 30) {
+        typeLabel = "慎重だけど伸びしろ大タイプ";
+        typeMessage =
+          "慎重さゆえに一歩踏み出しづらい場面も多いかもしれませんが、視点を少し変えるだけで一気にラクになります。まずは自己理解とコミュニケーションから整えていきましょう。";
       } else {
-        range = 'まだ伸びしろたっぷりのゾーンです。';
-        msg = 'ダメという意味ではなく、「これから整えていける余白が多い」という状態です。自分責めではなく、「どこから整えるとラクになるか？」を一緒に見つけていきましょう。';
+        typeLabel = "恋愛リハビリ中タイプ";
+        typeMessage =
+          "これまでの経験で少し自信を失っている状態かも。できていない所だけでなく「うまくいった点」にも目を向けながら、少しずつ感覚を取り戻していきましょう。";
       }
 
-      rangeText.textContent = range;
-      messageText.textContent = msg;
-      resultBox.style.display = 'block';
-      resultBox.scrollIntoView({ behavior: 'smooth' });
+      // 画面に反映
+      document.getElementById("mainScore").textContent =
+        "あなたの恋愛能力指数：" + totalScore + " / 75";
+      document.getElementById("typeLabel").textContent =
+        "💗 あなたのタイプ：" + typeLabel;
+
+      document.getElementById("categoryScores").innerHTML =
+        "🌿 カテゴリ分析" +
+        "<br>自己軸：" +
+        selfAxis +
+        " / 20" +
+        "<br>共感力：" +
+        empathy +
+        " / 20" +
+        "<br>距離感調整：" +
+        distance +
+        " / 15" +
+        "<br>コミュ力：" +
+        communication +
+        " / 10" +
+        "<br>自己理解：" +
+        selfUnderstanding +
+        " / 10";
+
+      document.getElementById("typeMessage").textContent = typeMessage;
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").scrollIntoView({ behavior: "smooth" });
     });
   </script>
 </body>
