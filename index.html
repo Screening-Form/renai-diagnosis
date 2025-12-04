@@ -1,11 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <title>恋愛診断</title>
+  <meta charset="UTF-8" />
+  <title>あなたの恋愛スタイル診断</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #fff7fb;
+      color: #333;
+    }
+    header {
+      background: #ff8fb3;
+      color: #fff;
+      padding: 16px;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin: 0;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .question {
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .q-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+    .submit-wrap {
+      text-align: center;
+      margin: 24px 0 16px;
+    }
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #ff5c8d;
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .result {
+      display: none;
+      border-radius: 12px;
+      background: #fff;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      margin-bottom: 40px;
+    }
+    .result-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .score-big {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .range-note {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #777;
+      padding: 16px;
+    }
+  </style>
 </head>
 <body>
-  <h1>恋愛診断ページ（テスト）</h1>
-  <p>ここに本番の診断ロジックを組み込んでいきます。</p>
+  <header>
+    <h1>あなたの恋愛スタイル診断</h1>
+  </header>
+
+  <main>
+    <p>15問に答えると、あなたの恋愛スタイルの傾向をスコアでチェックできます。<br>
+    全問必須です。（A〜Eのどれかを1つ選んでください）</p>
+
+    <form id="quizForm">
+      <!-- Q1〜Q15：とりあえず合計スコアだけ判定。内容はあとから差し替え／調整OK -->
+      <div class="question" data-q="1">
+        <div class="q-title">1. 初対面の異性と話す時、どのくらい自然に話せますか？</div>
+        <div class="options">
+          <label><input type="radio" name="q1" value="5"> ほぼ緊張せず会話できる</label>
+          <label><input type="radio" name="q1" value="4"> 少し緊張するが普通に話せる</label>
+          <label><input type="radio" name="q1" value="3"> 会話に困る時がある</label>
+          <label><input type="radio" name="q1" value="2"> かなり緊張する</label>
+          <label><input type="radio" name="q1" value="1"> 会話がうまくできない</label>
+        </div>
+      </div>
+
+      <!-- ここから下は、Typeform で使っていた Q2〜Q15 をそのままコピペしてOK。
+           いったん全部「value=5〜1」にしておけば合計点だけ出ます。 -->
+
+      <div class="question" data-q="2">
+        <div class="q-title">2. 相手の気持ちや意図を理解しようとする姿勢は？</div>
+        <div class="options">
+          <label><input type="radio" name="q2" value="5"> いつも意識している</label>
+          <label><input type="radio" name="q2" value="4"> けっこう意識している</label>
+          <label><input type="radio" name="q2" value="3"> どちらともいえない</label>
+          <label><input type="radio" name="q2" value="2"> あまり意識しない</label>
+          <label><input type="radio" name="q2" value="1"> ほぼ意識しない</label>
+        </div>
+      </div>
+
+      <!-- ……同じパターンで Q3〜Q15 を追加 …… -->
+      <!-- 面倒ならまずは Q5 くらいまででテスト → 後から残りを足してもOK -->
+
+      <div class="submit-wrap">
+        <button type="submit" id="submitBtn">結果を見る</button>
+      </div>
+    </form>
+
+    <section class="result" id="resultBox">
+      <div class="result-title">診断結果</div>
+      <div class="score-big" id="scoreText"></div>
+      <div class="range-note" id="rangeText"></div>
+      <p id="messageText"></p>
+    </section>
+  </main>
+
+  <footer>
+    ※この診断はあくまで自己理解のきっかけとしてご利用ください。
+  </footer>
+
+  <script>
+    const form = document.getElementById('quizForm');
+    const resultBox = document.getElementById('resultBox');
+    const scoreText = document.getElementById('scoreText');
+    const rangeText = document.getElementById('rangeText');
+    const messageText = document.getElementById('messageText');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // まず回答チェック（未回答があればアラート）
+      const qBlocks = document.querySelectorAll('.question');
+      let totalScore = 0;
+      for (const q of qBlocks) {
+        const name = 'q' + q.dataset.q;
+        const checked = form.querySelector('input[name="' + name + '"]:checked');
+        if (!checked) {
+          alert('問 ' + q.dataset.q + ' が未回答です。');
+          return;
+        }
+        totalScore += Number(checked.value);
+      }
+
+      // 最大点（質問数×5）を計算
+      const maxScore = qBlocks.length * 5;
+
+      scoreText.textContent = `あなたの恋愛能力指数： ${totalScore} / ${maxScore}`;
+
+      // ざっくり3段階のコメント（後で細かく調整OK）
+      let msg = '';
+      let range = '';
+      const ratio = totalScore / maxScore;
+
+      if (ratio >= 0.75) {
+        range = 'かなり高めの恋愛ポテンシャルです。';
+        msg = '自分軸と相手への思いやりのバランスが良く、恋愛を前向きに楽しめるタイプ。今の感覚を大事にしつつ、パターン化したクセだけ整えていくとさらに安定します。';
+      } else if (ratio >= 0.5) {
+        range = '平均〜やや高めのゾーンです。';
+        msg = '基本的な恋愛力は備わっていますが、状況や相手によってムラが出やすい傾向も。今回の質問の中で「2」や「1」を選んだところが、今後の伸びしろポイントです。';
+      } else {
+        range = 'まだ伸びしろたっぷりのゾーンです。';
+        msg = 'ダメという意味ではなく、「これから整えていける余白が多い」という状態です。自分責めではなく、「どこから整えるとラクになるか？」を一緒に見つけていきましょう。';
+      }
+
+      rangeText.textContent = range;
+      messageText.textContent = msg;
+      resultBox.style.display = 'block';
+      resultBox.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
