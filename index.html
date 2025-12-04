@@ -110,6 +110,7 @@
     .result-message {
       font-size: 13px;
       line-height: 1.7;
+      margin-top: 4px;
     }
     .note {
       margin-top: 16px;
@@ -376,6 +377,145 @@
       return checked ? Number(checked.value) : null;
     }
 
+    // ★ スター表示用：カテゴリスコア → ★＋一言コメント
+    function toStars(score, max) {
+      const ratio = score / max;
+      let starsCount;
+      if (ratio >= 0.85) {
+        starsCount = 5;
+      } else if (ratio >= 0.7) {
+        starsCount = 4;
+      } else if (ratio >= 0.5) {
+        starsCount = 3;
+      } else if (ratio >= 0.3) {
+        starsCount = 2;
+      } else {
+        starsCount = 1;
+      }
+      const full = "★★★★★".slice(0, starsCount);
+      const empty = "☆☆☆☆☆".slice(0, 5 - starsCount);
+      return full + empty;
+    }
+
+    function levelComment(score, max) {
+      const ratio = score / max;
+      if (ratio >= 0.85) return "かなり高め";
+      if (ratio >= 0.7) return "高め";
+      if (ratio >= 0.5) return "ふつう〜やや高め";
+      if (ratio >= 0.3) return "やや弱め";
+      return "弱め・これから伸ばせる";
+    }
+
+    // 8タイプ判定
+    function decideType(totalScore, norms) {
+      const {
+        selfAxisN,
+        empathyN,
+        distanceN,
+        communicationN,
+        selfUnderstandingN
+      } = norms;
+
+      const maxNorm = Math.max(
+        selfAxisN,
+        empathyN,
+        distanceN,
+        communicationN,
+        selfUnderstandingN
+      );
+
+      let typeLabel = "";
+      let typeMessage = "";
+
+      if (totalScore >= 60) {
+        if (
+          (empathyN >= 0.7 || distanceN >= 0.7) &&
+          empathyN >= distanceN
+        ) {
+          // 1 安定共感バランス型
+          typeLabel = "安定共感バランス型";
+          typeMessage =
+            "相手の気持ちを受け取りつつ、自分のペースも大事にできる安定感のあるタイプ。信頼関係をじっくり育てていくのが得意です。ときどき自分の本音を言葉にしてシェアしていくと、さらに関係が深まりやすくなります。";
+        } else if (selfAxisN === maxNorm) {
+          // 2 自分軸リーダー型
+          typeLabel = "自分軸リーダー型";
+          typeMessage =
+            "自分なりの価値観や基準がはっきりしていて、恋愛でもブレにくいタイプ。主導権を握りやすい一方で、相手のペースや不安にも少し耳を傾けると、より安心される存在になります。『伝える前に一呼吸おく』が鍵。";
+        } else if (communicationN === maxNorm) {
+          // 3 会話オープンコミュ力型
+          typeLabel = "会話オープンコミュ力型";
+          typeMessage =
+            "話しかけやすく、距離を縮めるのが早いタイプ。楽しいムードを作れる反面、踏み込みすぎやすさもセットになりがちです。相手の様子を少し観察しながら、ペース配分を調整していくと、軽さではなく“信頼される明るさ”に変わっていきます。";
+        } else if (selfUnderstandingN === maxNorm) {
+          // 4 内省マイペース型
+          typeLabel = "内省マイペース型";
+          typeMessage =
+            "自分の感情やパターンをよく観察しているタイプ。恋愛でもじっくり考えてから動きたい傾向があります。その分、一歩目が遅れがちなので『完璧なタイミング』を待ちすぎないことが大事。7割くらいの準備で動いてみると、恋愛の流れがぐっと変わります。";
+        } else {
+          // 5 大人の距離感マスター型
+          typeLabel = "大人の距離感マスター型";
+          typeMessage =
+            "近づきすぎず、離れすぎずのバランスを取りやすいタイプ。依存しすぎない関係を作りやすい一方で、踏み込むタイミングを逃すことも。『ここは一歩踏み込みたいな』と感じた瞬間を逃さず、気持ちを少しだけ多めに表現してみると良い流れが生まれます。";
+        }
+      } else if (totalScore >= 45) {
+        if (selfUnderstandingN === maxNorm) {
+          // 4 内省マイペース型（中スコア寄り）
+          typeLabel = "内省マイペース型";
+          typeMessage =
+            "自分の心の動きに敏感で、恋愛でもじっくり考えながら関係を育てたいタイプ。慎重さゆえにチャンスを見送ってしまうこともありますが、『少し気になる』段階で軽いアクションを起こすクセをつけると、恋のチャンスが増えていきます。";
+        } else if (distanceN === maxNorm) {
+          // 5 距離感慎重ガード型
+          typeLabel = "距離感慎重ガード型";
+          typeMessage =
+            "相手との距離を慎重に測るタイプで、踏み込みすぎることが少ない安心感のあるスタイルです。ただ、慎重さが“様子見のまま終わる恋”を増やしてしまうことも。『安心できる相手だと感じたら一歩前へ』を意識してみると、関係が動きやすくなります。";
+        } else if (empathyN === maxNorm && selfAxisN < 0.5) {
+          // 6 受け身共感タイプ
+          typeLabel = "受け身共感タイプ";
+          typeMessage =
+            "相手の気持ちに寄り添う力が高く、聞き役になりやすいタイプ。優しさゆえに、自分の希望や不満を後回しにしがちです。『本当はどうしたい？』を自分に問いかけてから、少しずつ言葉にしていくと、恋愛の満足度がぐっと上がります。";
+        } else if (communicationN === maxNorm && distanceN < 0.5) {
+          // 7 一気に盛り上がりタイプ
+          typeLabel = "一気に盛り上がりタイプ";
+          typeMessage =
+            "気になると一気に距離を縮めたくなる情熱型。相手からすると嬉しい半面、ペースの違いで驚かれることもあります。『相手の反応を半歩だけ待つ』意識を持つと、熱量はそのままに、安心されるアプローチに変えていけます。";
+        } else {
+          // 2 or 5 系の中間
+          typeLabel = "バランス成長タイプ";
+          typeMessage =
+            "大きな偏りはなく、恋愛スタイルとしては“これから整っていく途中”の段階です。どこか1つを極端に変えるより、『自己軸』『共感』『距離感』のうち、気になる1つだけにフォーカスして整えていくと、全体がゆるやかに底上げされていきます。";
+        }
+      } else if (totalScore >= 30) {
+        if (communicationN > 0.6 && distanceN < 0.5) {
+          // 7 一気に盛り上がりタイプ（慎重さ弱め）
+          typeLabel = "一気に盛り上がりタイプ";
+          typeMessage =
+            "好きになると感情が一気に動きやすく、勢いで進めてしまうことがあるタイプ。熱さは魅力なので消す必要はありませんが、『相手の不安はどこかな？』と一瞬立ち止まって想像してみるだけで、関係の安定感が大きく変わります。";
+        } else if (empathyN > 0.6 && selfAxisN < 0.4) {
+          // 6 受け身共感タイプ（自己犠牲寄り）
+          typeLabel = "受け身共感タイプ";
+          typeMessage =
+            "相手のことを優先しやすく、自分の気持ちを脇に置きがちなスタイルです。『NOを言っても嫌われない』経験を少しずつ積むと、恋愛が“我慢の場所”から“安心できる場所”に変わっていきます。";
+        } else if (distanceN > 0.6) {
+          // 5 距離感慎重ガード型（やや守り寄り）
+          typeLabel = "距離感慎重ガード型";
+          typeMessage =
+            "慎重に様子を見るクセがあり、強い失敗は少ないタイプ。ただ、その分“始まらない恋”も増えやすい傾向があります。少しでも興味を持ったら、軽いメッセージやリアクションからタッチしてみると、流れが変わりやすくなります。";
+        } else {
+          // 8 恋愛リハビリ中タイプ（中スコア）
+          typeLabel = "恋愛リハビリ中タイプ";
+          typeMessage =
+            "これまでの経験や環境の影響で、恋愛に対して少し慎重モードになっている状態かもしれません。いきなり大きな一歩を踏み出すよりも、『安心できる人との小さな経験』を積み重ねていくことで、感覚が少しずつ戻ってきます。";
+        }
+      } else {
+        // 8 低スコア帯：恋愛リハビリ中・伸びしろタイプ
+        typeLabel = "恋愛リハビリ中・伸びしろタイプ";
+        typeMessage =
+          "今は恋愛に対して自信が持ちづらかったり、動き方がわからなくなっている段階かもしれません。でもこれは“センスがない”ではなく、ただ感覚が眠っているだけ。自分を責めるより、『どこからなら少し動けそうか』を一緒に探していくイメージで向き合うのがおすすめです。";
+      }
+
+      return { typeLabel, typeMessage };
+    }
+
     document.getElementById("submitBtn").addEventListener("click", function () {
       const answers = [];
       for (let i = 1; i <= 15; i++) {
@@ -390,72 +530,101 @@
       // トータルスコア（最大75）
       const totalScore = answers.slice(1).reduce((a, b) => a + b, 0);
 
-      // カテゴリ別スコア
-      // 自己軸：Q4,7,9,15（/20）
-      const selfAxis =
-        answers[4] + answers[7] + answers[9] + answers[15];
+      // カテゴリ別スコア（あなたが直した割り当てに合わせる）
+      // No  カテゴリ
+      // 1  communication
+      // 2  empathy
+      // 3  empathy
+      // 4  communication
+      // 5  distance
+      // 6  self_axis
+      // 7  self_understanding
+      // 8  empathy
+      // 9  distance
+      // 10 self_axis
+      // 11 self_understanding
+      // 12 empathy
+      // 13 distance
+      // 14 self_axis
+      // 15 self_understanding
 
-      // 共感力：Q2,8,10,14（/20）
-      const empathy =
-        answers[2] + answers[8] + answers[10] + answers[14];
+      const communication = answers[1] + answers[4]; // /10
+      const empathy = answers[2] + answers[3] + answers[8] + answers[12]; // /20
+      const distance = answers[5] + answers[9] + answers[13]; // /15
+      const selfAxis = answers[6] + answers[10] + answers[14]; // /15
+      const selfUnderstanding =
+        answers[7] + answers[11] + answers[15]; // /15
 
-      // 距離感調整：Q5,11,12（/15）
-      const distance = answers[5] + answers[11] + answers[12];
+      const maxComm = 10;
+      const maxEmp = 20;
+      const maxDist = 15;
+      const maxAxis = 15;
+      const maxSelfU = 15;
 
-      // コミュ力：Q1,3（/10）
-      const communication = answers[1] + answers[3];
+      const norms = {
+        selfAxisN: selfAxis / maxAxis,
+        empathyN: empathy / maxEmp,
+        distanceN: distance / maxDist,
+        communicationN: communication / maxComm,
+        selfUnderstandingN: selfUnderstanding / maxSelfU
+      };
 
-      // 自己理解：Q6,13（/10）
-      const selfUnderstanding = answers[6] + answers[13];
+      const { typeLabel, typeMessage } = decideType(totalScore, norms);
 
-      // タイプ判定（ざっくり4区分）
-      let typeLabel = "";
-      let typeMessage = "";
-      if (totalScore >= 60) {
-        typeLabel = "バランス恋愛マスタータイプ";
-        typeMessage =
-          "自己軸・共感・距離感のバランスが良く、安定した関係を築きやすいタイプです。今の感覚を大切にしつつ、パターン化したクセだけ整えていくとさらに安定します。";
-      } else if (totalScore >= 45) {
-        typeLabel = "成長途中の実直タイプ";
-        typeMessage =
-          "基本的には誠実でまっすぐですが、状況によってはブレたり我慢しすぎることも。どこで無理しているかを知ると、もっと楽に恋愛を楽しめます。";
-      } else if (totalScore >= 30) {
-        typeLabel = "慎重だけど伸びしろ大タイプ";
-        typeMessage =
-          "慎重さゆえに一歩踏み出しづらい場面も多いかもしれませんが、視点を少し変えるだけで一気にラクになります。まずは自己理解とコミュニケーションから整えていきましょう。";
-      } else {
-        typeLabel = "恋愛リハビリ中タイプ";
-        typeMessage =
-          "これまでの経験で少し自信を失っている状態かも。できていない所だけでなく「うまくいった点」にも目を向けながら、少しずつ感覚を取り戻していきましょう。";
-      }
-
-      // 画面に反映
+      // メインスコア表示（総合）
       document.getElementById("mainScore").textContent =
-        "あなたの恋愛能力指数：" + totalScore + " / 75";
+        "💗 あなたの恋愛能力指数：" + totalScore + " / 75";
+
       document.getElementById("typeLabel").textContent =
-        "💗 あなたのタイプ：" + typeLabel;
+        "あなたの恋愛スタイルタイプ： " + typeLabel;
+
+      // カテゴリ★表示
+      const catLines = [];
+      catLines.push(
+        "自己軸　：" +
+          toStars(selfAxis, maxAxis) +
+          "（" +
+          levelComment(selfAxis, maxAxis) +
+          "）"
+      );
+      catLines.push(
+        "共感力　：" +
+          toStars(empathy, maxEmp) +
+          "（" +
+          levelComment(empathy, maxEmp) +
+          "）"
+      );
+      catLines.push(
+        "距離感　：" +
+          toStars(distance, maxDist) +
+          "（" +
+          levelComment(distance, maxDist) +
+          "）"
+      );
+      catLines.push(
+        "コミュ力：" +
+          toStars(communication, maxComm) +
+          "（" +
+          levelComment(communication, maxComm) +
+          "）"
+      );
+      catLines.push(
+        "自己理解：" +
+          toStars(selfUnderstanding, maxSelfU) +
+          "（" +
+          levelComment(selfUnderstanding, maxSelfU) +
+          "）"
+      );
 
       document.getElementById("categoryScores").innerHTML =
-        "🌿 カテゴリ分析" +
-        "<br>自己軸：" +
-        selfAxis +
-        " / 20" +
-        "<br>共感力：" +
-        empathy +
-        " / 20" +
-        "<br>距離感調整：" +
-        distance +
-        " / 15" +
-        "<br>コミュ力：" +
-        communication +
-        " / 10" +
-        "<br>自己理解：" +
-        selfUnderstanding +
-        " / 10";
+        "🌿 カテゴリ別の傾向" + "<br>" + catLines.join("<br>");
 
       document.getElementById("typeMessage").textContent = typeMessage;
+
       document.getElementById("result").style.display = "block";
-      document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById("result")
+        .scrollIntoView({ behavior: "smooth" });
     });
   </script>
 </body>
