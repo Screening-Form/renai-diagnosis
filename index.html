@@ -9,7 +9,7 @@
       margin: 0;
       font-family: "Hiragino Sans", "游ゴシック", system-ui, -apple-system,
         BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #ffe9d6; /* 薄いオレンジ背景 */
+      background: #ffe9d2; /* 薄いオレンジ系 */
     }
     .wrapper {
       max-width: 840px;
@@ -17,37 +17,44 @@
       padding: 32px 16px 64px;
     }
     .card {
-      background: #fff;
+      background: #fffdf8;
       border-radius: 12px;
       padding: 24px 24px 32px;
-      box-shadow: 0 6px 16px rgba(255, 149, 58, 0.2);
+      box-shadow: 0 6px 18px rgba(255, 159, 67, 0.22);
+      border: 1px solid #ffe0b8;
     }
     h1 {
       text-align: center;
       margin: 0 0 16px;
       font-size: 24px;
       letter-spacing: 0.08em;
-      color: #ff8a3d;
+      color: #ff8a3c;
     }
     .lead {
       text-align: center;
       font-size: 14px;
       color: #666;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       line-height: 1.6;
     }
-    .progress {
+    .step-indicator {
       text-align: center;
       font-size: 12px;
-      color: #999;
-      margin-bottom: 16px;
+      color: #aa7536;
+      margin-bottom: 12px;
+    }
+    .question-page {
+      display: none;
+    }
+    .question-page.active {
+      display: block;
     }
     .question {
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       padding: 16px 16px 4px;
       border-radius: 10px;
-      background: #fff9f1;
-      border: 1px solid #ffd9b0;
+      background: #fff8f0;
+      border: 1px solid #ffd7a3;
     }
     .question-title {
       font-weight: 600;
@@ -71,95 +78,94 @@
       display: flex;
       justify-content: space-between;
       gap: 8px;
-      margin: 24px 0 8px;
+      margin-top: 14px;
     }
     .nav-buttons button {
       flex: 1;
       border-radius: 999px;
       border: none;
-      padding: 10px 16px;
+      padding: 9px 12px;
       font-size: 14px;
       cursor: pointer;
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
     }
-    #prevBtn {
-      background: #f2f2f2;
-      color: #666;
+    .prev-btn {
+      background: #fff;
+      border: 1px solid #ffb36a;
+      color: #ff8a3c;
     }
-    #nextBtn {
-      background: #ff8a3d;
+    .next-btn {
+      background: #ff8a3c;
       color: #fff;
-      box-shadow: 0 4px 10px rgba(255, 138, 61, 0.4);
+      box-shadow: 0 3px 10px rgba(255, 138, 60, 0.4);
     }
-    #prevBtn:disabled {
-      opacity: 0.5;
-      cursor: default;
-      box-shadow: none;
-    }
-    #nextBtn:hover {
-      opacity: 0.95;
-      transform: translateY(1px);
+    .next-btn:hover,
+    .prev-btn:hover {
+      opacity: 0.92;
     }
 
     .result-card {
       margin-top: 24px;
-      padding: 20px 16px 16px;
+      padding: 20px 16px 18px;
       border-radius: 10px;
-      background: #fff5ea;
-      border: 1px solid #ffd3aa;
+      background: #fff7ec;
+      border: 1px solid #ffd0a0;
+      display: none;
     }
     .result-title {
       font-weight: 700;
       margin-bottom: 10px;
-      color: #ff8a3d;
+      color: #ff8a3c;
+      font-size: 16px;
+      text-align: center;
     }
     .result-main-score {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      text-align: center;
     }
-    .result-main-score-label {
+    .result-main-label {
+      display: block;
       font-size: 13px;
-      margin-bottom: 4px;
       color: #555;
     }
-    .result-main-score-value {
-      font-size: 22px; /* 数値を1.3倍くらい大きく */
+    .result-main-value {
+      display: block;
+      margin-top: 4px;
+      font-size: 1.3em;
       font-weight: 700;
-      color: #ff6f3d;
+      color: #e66b1a;
     }
-    .type-label {
-      margin-bottom: 12px;
+    .type-label-wrap {
+      margin: 10px 0 6px;
+      text-align: center;
     }
-    .type-label-label {
+    .type-label-title {
       font-size: 13px;
       color: #555;
       margin-bottom: 2px;
     }
     .type-label-value {
-      font-size: 17px;
-      font-weight: 700; /* タイプ名だけ太字 */
-      color: #ff6f3d;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ff8a3c;
     }
     .category-list {
-      margin: 10px 0 10px;
+      margin: 10px 0 12px;
       font-size: 13px;
       line-height: 1.7;
     }
-    .category-heading {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .section-heading {
+    .section-title {
       margin-top: 10px;
       margin-bottom: 4px;
       font-size: 13px;
-      font-weight: 600;
-      color: #ff8a3d;
+      font-weight: 700;
+      color: #cc6a1c;
     }
     .result-message {
       font-size: 13px;
       line-height: 1.7;
-      margin-top: 2px;
+      margin-bottom: 6px;
     }
     .note {
       margin-top: 16px;
@@ -178,6 +184,9 @@
       .nav-buttons {
         flex-direction: column;
       }
+      .nav-buttons button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -186,252 +195,339 @@
     <div class="card">
       <h1>あなたの恋愛スタイル診断</h1>
       <p class="lead">
-        15問に答えると、あなたの恋愛スタイルの傾向とバランスがわかります。<br />
+        15問に答えると、あなたの恋愛スタイルの傾向とスコアをチェックできます。<br />
         （A〜Eのどれかを1つ選んでください）
       </p>
 
-      <div class="progress" id="progressText">1 / 15 問</div>
+      <div id="stepIndicator" class="step-indicator">
+        質問 1 / 15
+      </div>
 
       <form id="quizForm">
-        <!-- Q1 -->
-        <div class="question" data-q="1">
-          <div class="question-title">
-            1. 初対面の異性と話す時、どのくらい自然に話せますか？
+        <div id="questionPages">
+          <!-- Q1 -->
+          <div class="question-page active" data-step="1">
+            <div class="question">
+              <div class="question-title">
+                1. 初対面の異性と話す時、どのくらい自然に話せますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q1" value="5" />ほぼ緊張せず会話できる</label>
+                <label><input type="radio" name="q1" value="4" />少し緊張するが普通に話せる</label>
+                <label><input type="radio" name="q1" value="3" />会話に困る時がある</label>
+                <label><input type="radio" name="q1" value="2" />かなり緊張する</label>
+                <label><input type="radio" name="q1" value="1" />会話がうまくできない</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" disabled>戻る</button>
+              <button type="button" class="next-btn" data-next="2">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q1" value="5" />ほぼ緊張せず会話できる</label>
-            <label><input type="radio" name="q1" value="4" />少し緊張するが普通に話せる</label>
-            <label><input type="radio" name="q1" value="3" />会話に困る時がある</label>
-            <label><input type="radio" name="q1" value="2" />かなり緊張する</label>
-            <label><input type="radio" name="q1" value="1" />会話がうまくできない</label>
-          </div>
-        </div>
 
-        <!-- Q2 -->
-        <div class="question" data-q="2" style="display:none;">
-          <div class="question-title">
-            2. 相手の気持ちや意図を理解しようとする姿勢は？
+          <!-- Q2 -->
+          <div class="question-page" data-step="2">
+            <div class="question">
+              <div class="question-title">
+                2. 相手の気持ちや意図を理解しようとする姿勢は？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q2" value="5" />いつも意識している</label>
+                <label><input type="radio" name="q2" value="4" />けっこう意識している</label>
+                <label><input type="radio" name="q2" value="3" />どちらともいえない</label>
+                <label><input type="radio" name="q2" value="2" />あまり意識しない</label>
+                <label><input type="radio" name="q2" value="1" />ほぼ意識しない</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="1">戻る</button>
+              <button type="button" class="next-btn" data-next="3">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q2" value="5" />いつも意識している</label>
-            <label><input type="radio" name="q2" value="4" />けっこう意識している</label>
-            <label><input type="radio" name="q2" value="3" />どちらともいえない</label>
-            <label><input type="radio" name="q2" value="2" />あまり意識しない</label>
-            <label><input type="radio" name="q2" value="1" />ほぼ意識しない</label>
-          </div>
-        </div>
 
-        <!-- Q3 -->
-        <div class="question" data-q="3" style="display:none;">
-          <div class="question-title">
-            3. 気持ちや思っていることを、相手にわかるように伝えるのは得意ですか？
+          <!-- Q3 -->
+          <div class="question-page" data-step="3">
+            <div class="question">
+              <div class="question-title">
+                3. 気持ちや思っていることを、相手にわかるように伝えるのは得意ですか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q3" value="5" />とても得意</label>
+                <label><input type="radio" name="q3" value="4" />けっこう得意</label>
+                <label><input type="radio" name="q3" value="3" />ときどき難しい</label>
+                <label><input type="radio" name="q3" value="2" />あまり得意じゃない</label>
+                <label><input type="radio" name="q3" value="1" />かなり苦手</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="2">戻る</button>
+              <button type="button" class="next-btn" data-next="4">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q3" value="5" />とても得意</label>
-            <label><input type="radio" name="q3" value="4" />けっこう得意</label>
-            <label><input type="radio" name="q3" value="3" />ときどき難しい</label>
-            <label><input type="radio" name="q3" value="2" />あまり得意じゃない</label>
-            <label><input type="radio" name="q3" value="1" />かなり苦手</label>
-          </div>
-        </div>
 
-        <!-- Q4 -->
-        <div class="question" data-q="4" style="display:none;">
-          <div class="question-title">
-            4. 恋をすると、あなたは自分のペースを保てますか？
+          <!-- Q4 -->
+          <div class="question-page" data-step="4">
+            <div class="question">
+              <div class="question-title">
+                4. 恋をすると、あなたは自分のペースを保てますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q4" value="5" />しっかり保てる</label>
+                <label><input type="radio" name="q4" value="4" />ほぼ保てる</label>
+                <label><input type="radio" name="q4" value="3" />揺らぐことがある</label>
+                <label><input type="radio" name="q4" value="2" />相手中心になりすぎることが多い</label>
+                <label><input type="radio" name="q4" value="1" />いつも相手に振り回される</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="3">戻る</button>
+              <button type="button" class="next-btn" data-next="5">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q4" value="5" />しっかり保てる</label>
-            <label><input type="radio" name="q4" value="4" />ほぼ保てる</label>
-            <label><input type="radio" name="q4" value="3" />揺らぐことがある</label>
-            <label><input type="radio" name="q4" value="2" />相手中心になりすぎることが多い</label>
-            <label><input type="radio" name="q4" value="1" />いつも相手に振り回される</label>
-          </div>
-        </div>
 
-        <!-- Q5 -->
-        <div class="question" data-q="5" style="display:none;">
-          <div class="question-title">
-            5. 好きな人との距離感をつかむのは得意ですか？
+          <!-- Q5 -->
+          <div class="question-page" data-step="5">
+            <div class="question">
+              <div class="question-title">
+                5. 好きな人との距離感をつかむのは得意ですか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q5" value="5" />かなり得意</label>
+                <label><input type="radio" name="q5" value="4" />だいたい得意</label>
+                <label><input type="radio" name="q5" value="3" />ときどき迷う</label>
+                <label><input type="radio" name="q5" value="2" />うまく距離が取れないことが多い</label>
+                <label><input type="radio" name="q5" value="1" />ほぼいつも距離感を間違える</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="4">戻る</button>
+              <button type="button" class="next-btn" data-next="6">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q5" value="5" />かなり得意</label>
-            <label><input type="radio" name="q5" value="4" />だいたい得意</label>
-            <label><input type="radio" name="q5" value="3" />ときどき迷う</label>
-            <label><input type="radio" name="q5" value="2" />うまく距離が取れないことが多い</label>
-            <label><input type="radio" name="q5" value="1" />ほぼいつも距離感を間違える</label>
-          </div>
-        </div>
 
-        <!-- Q6 -->
-        <div class="question" data-q="6" style="display:none;">
-          <div class="question-title">
-            6. あなたは、相手の本質や性格を見抜くのが得意ですか？
+          <!-- Q6 -->
+          <div class="question-page" data-step="6">
+            <div class="question">
+              <div class="question-title">
+                6. あなたは、相手の本質や性格を見抜くのが得意ですか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q6" value="5" />かなり得意</label>
+                <label><input type="radio" name="q6" value="4" />だいたい合っている</label>
+                <label><input type="radio" name="q6" value="3" />まあまあ当たる</label>
+                <label><input type="radio" name="q6" value="2" />けっこう間違えることが多い</label>
+                <label><input type="radio" name="q6" value="1" />よく見誤る</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="5">戻る</button>
+              <button type="button" class="next-btn" data-next="7">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q6" value="5" />かなり得意</label>
-            <label><input type="radio" name="q6" value="4" />だいたい合っている</label>
-            <label><input type="radio" name="q6" value="3" />まあまあ当たる</label>
-            <label><input type="radio" name="q6" value="2" />けっこう間違えることが多い</label>
-            <label><input type="radio" name="q6" value="1" />よく見誤る</label>
-          </div>
-        </div>
 
-        <!-- Q7 -->
-        <div class="question" data-q="7" style="display:none;">
-          <div class="question-title">
-            7. 相手に合わせすぎず、自分の意見や希望を言える方ですか？
+          <!-- Q7 -->
+          <div class="question-page" data-step="7">
+            <div class="question">
+              <div class="question-title">
+                7. 相手に合わせすぎず、自分の意見や希望を言える方ですか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q7" value="5" />しっかり言える</label>
+                <label><input type="radio" name="q7" value="4" />だいたい言える</label>
+                <label><input type="radio" name="q7" value="3" />ときどき我慢してしまう</label>
+                <label><input type="radio" name="q7" value="2" />けっこう言えないことが多い</label>
+                <label><input type="radio" name="q7" value="1" />ほとんど言えない</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="6">戻る</button>
+              <button type="button" class="next-btn" data-next="8">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q7" value="5" />しっかり言える</label>
-            <label><input type="radio" name="q7" value="4" />だいたい言える</label>
-            <label><input type="radio" name="q7" value="3" />ときどき我慢してしまう</label>
-            <label><input type="radio" name="q7" value="2" />けっこう言えないことが多い</label>
-            <label><input type="radio" name="q7" value="1" />ほとんど言えない</label>
-          </div>
-        </div>
 
-        <!-- Q8 -->
-        <div class="question" data-q="8" style="display:none;">
-          <div class="question-title">
-            8. 相手の気持ちや立場を思いやって行動できる方ですか？
+          <!-- Q8 -->
+          <div class="question-page" data-step="8">
+            <div class="question">
+              <div class="question-title">
+                8. 相手の気持ちや立場を思いやって行動できる方ですか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q8" value="5" />かなりできる</label>
+                <label><input type="radio" name="q8" value="4" />だいたいできる</label>
+                <label><input type="radio" name="q8" value="3" />ときどきできる</label>
+                <label><input type="radio" name="q8" value="2" />あまりできない</label>
+                <label><input type="radio" name="q8" value="1" />ほとんどできない</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="7">戻る</button>
+              <button type="button" class="next-btn" data-next="9">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q8" value="5" />かなりできる</label>
-            <label><input type="radio" name="q8" value="4" />だいたいできる</label>
-            <label><input type="radio" name="q8" value="3" />ときどきできる</label>
-            <label><input type="radio" name="q8" value="2" />あまりできない</label>
-            <label><input type="radio" name="q8" value="1" />ほとんどできない</label>
-          </div>
-        </div>
 
-        <!-- Q9 -->
-        <div class="question" data-q="9" style="display:none;">
-          <div class="question-title">
-            9. 自分の感情や気持ちに、ちゃんと気づける方ですか？
+          <!-- Q9 -->
+          <div class="question-page" data-step="9">
+            <div class="question">
+              <div class="question-title">
+                9. 自分の感情や気持ちに、ちゃんと気づける方ですか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q9" value="5" />いつも気づける</label>
+                <label><input type="radio" name="q9" value="4" />だいたい気づける</label>
+                <label><input type="radio" name="q9" value="3" />ときどき混乱する</label>
+                <label><input type="radio" name="q9" value="2" />自分の気持ちがよくわからない</label>
+                <label><input type="radio" name="q9" value="1" />ほとんど気づけない</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="8">戻る</button>
+              <button type="button" class="next-btn" data-next="10">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q9" value="5" />いつも気づける</label>
-            <label><input type="radio" name="q9" value="4" />だいたい気づける</label>
-            <label><input type="radio" name="q9" value="3" />ときどき混乱する</label>
-            <label><input type="radio" name="q9" value="2" />自分の気持ちがよくわからない</label>
-            <label><input type="radio" name="q9" value="1" />ほとんど気づけない</label>
-          </div>
-        </div>
 
-        <!-- Q10 -->
-        <div class="question" data-q="10" style="display:none;">
-          <div class="question-title">
-            10. 気になる人に対して、相手のテンポに合わせて進められますか？
+          <!-- Q10 -->
+          <div class="question-page" data-step="10">
+            <div class="question">
+              <div class="question-title">
+                10. 気になる人に対して、相手のテンポに合わせて進められますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q10" value="5" />かなり合わせられる</label>
+                <label><input type="radio" name="q10" value="4" />だいたい合わせられる</label>
+                <label><input type="radio" name="q10" value="3" />たまにズレる</label>
+                <label><input type="radio" name="q10" value="2" />けっこうズレる</label>
+                <label><input type="radio" name="q10" value="1" />ほぼズレっぱなし</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="9">戻る</button>
+              <button type="button" class="next-btn" data-next="11">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q10" value="5" />かなり合わせられる</label>
-            <label><input type="radio" name="q10" value="4" />だいたい合わせられる</label>
-            <label><input type="radio" name="q10" value="3" />たまにズレる</label>
-            <label><input type="radio" name="q10" value="2" />けっこうズレる</label>
-            <label><input type="radio" name="q10" value="1" />ほぼズレっぱなし</label>
-          </div>
-        </div>
 
-        <!-- Q11 -->
-        <div class="question" data-q="11" style="display:none;">
-          <div class="question-title">
-            11. 恋愛で期待しすぎず、現実的に相手を見ることができますか？
+          <!-- Q11 -->
+          <div class="question-page" data-step="11">
+            <div class="question">
+              <div class="question-title">
+                11. 恋愛で期待しすぎず、現実的に相手を見ることができますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q11" value="5" />かなりできる</label>
+                <label><input type="radio" name="q11" value="4" />だいたいできる</label>
+                <label><input type="radio" name="q11" value="3" />ときどき理想化する</label>
+                <label><input type="radio" name="q11" value="2" />理想を投影してしまう</label>
+                <label><input type="radio" name="q11" value="1" />ほぼ現実が見えない</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="10">戻る</button>
+              <button type="button" class="next-btn" data-next="12">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q11" value="5" />かなりできる</label>
-            <label><input type="radio" name="q11" value="4" />だいたいできる</label>
-            <label><input type="radio" name="q11" value="3" />ときどき理想化する</label>
-            <label><input type="radio" name="q11" value="2" />理想を投影してしまう</label>
-            <label><input type="radio" name="q11" value="1" />ほぼ現実が見えない</label>
-          </div>
-        </div>
 
-        <!-- Q12 -->
-        <div class="question" data-q="12" style="display:none;">
-          <div class="question-title">
-            12. 親しい関係になっても、ひとりの時間を大切にできますか？
+          <!-- Q12 -->
+          <div class="question-page" data-step="12">
+            <div class="question">
+              <div class="question-title">
+                12. 親しい関係になっても、ひとりの時間を大切にできますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q12" value="5" />しっかりできる</label>
+                <label><input type="radio" name="q12" value="4" />だいたいできる</label>
+                <label><input type="radio" name="q12" value="3" />どちらともいえない</label>
+                <label><input type="radio" name="q12" value="2" />ひとりでいるのが不安</label>
+                <label><input type="radio" name="q12" value="1" />いつも相手と一緒にいたい</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="11">戻る</button>
+              <button type="button" class="next-btn" data-next="13">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q12" value="5" />しっかりできる</label>
-            <label><input type="radio" name="q12" value="4" />だいたいできる</label>
-            <label><input type="radio" name="q12" value="3" />どちらともいえない</label>
-            <label><input type="radio" name="q12" value="2" />ひとりでいるのが不安</label>
-            <label><input type="radio" name="q12" value="1" />いつも相手と一緒にいたい</label>
-          </div>
-        </div>
 
-        <!-- Q13 -->
-        <div class="question" data-q="13" style="display:none;">
-          <div class="question-title">
-            13. 恋愛の失敗や経験から学びを活かせていますか？
+          <!-- Q13 -->
+          <div class="question-page" data-step="13">
+            <div class="question">
+              <div class="question-title">
+                13. 恋愛の失敗や経験から学びを活かせていますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q13" value="5" />かなり活かせている</label>
+                <label><input type="radio" name="q13" value="4" />だいたい活かせている</label>
+                <label><input type="radio" name="q13" value="3" />たまに活かす</label>
+                <label><input type="radio" name="q13" value="2" />あまり活かせていない</label>
+                <label><input type="radio" name="q13" value="1" />ほぼ同じ失敗を繰り返す</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="12">戻る</button>
+              <button type="button" class="next-btn" data-next="14">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q13" value="5" />かなり活かせている</label>
-            <label><input type="radio" name="q13" value="4" />だいたい活かせている</label>
-            <label><input type="radio" name="q13" value="3" />たまに活かす</label>
-            <label><input type="radio" name="q13" value="2" />あまり活かせていない</label>
-            <label><input type="radio" name="q13" value="1" />ほぼ同じ失敗を繰り返す</label>
-          </div>
-        </div>
 
-        <!-- Q14 -->
-        <div class="question" data-q="14" style="display:none;">
-          <div class="question-title">
-            14. 相手に合わせるだけでなく、関係を一緒に作る意識はありますか？
+          <!-- Q14 -->
+          <div class="question-page" data-step="14">
+            <div class="question">
+              <div class="question-title">
+                14. 相手に合わせるだけでなく、関係を一緒に作る意識はありますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q14" value="5" />強くある</label>
+                <label><input type="radio" name="q14" value="4" />けっこうある</label>
+                <label><input type="radio" name="q14" value="3" />どちらともいえない</label>
+                <label><input type="radio" name="q14" value="2" />あまりない</label>
+                <label><input type="radio" name="q14" value="1" />相手任せになりがち</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="13">戻る</button>
+              <button type="button" class="next-btn" data-next="15">次へ</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q14" value="5" />強くある</label>
-            <label><input type="radio" name="q14" value="4" />けっこうある</label>
-            <label><input type="radio" name="q14" value="3" />どちらともいえない</label>
-            <label><input type="radio" name="q14" value="2" />あまりない</label>
-            <label><input type="radio" name="q14" value="1" />相手任せになりがち</label>
-          </div>
-        </div>
 
-        <!-- Q15 -->
-        <div class="question" data-q="15" style="display:none;">
-          <div class="question-title">
-            15. 信頼関係ができるまで、焦らずゆっくり進められますか？
+          <!-- Q15 -->
+          <div class="question-page" data-step="15">
+            <div class="question">
+              <div class="question-title">
+                15. 信頼関係ができるまで、焦らずゆっくり進められますか？
+              </div>
+              <div class="options">
+                <label><input type="radio" name="q15" value="5" />とてもできる</label>
+                <label><input type="radio" name="q15" value="4" />だいたいできる</label>
+                <label><input type="radio" name="q15" value="3" />ときどき焦る</label>
+                <label><input type="radio" name="q15" value="2" />けっこう焦る</label>
+                <label><input type="radio" name="q15" value="1" />いつも急ぎがち</label>
+              </div>
+            </div>
+            <div class="nav-buttons">
+              <button type="button" class="prev-btn" data-prev="14">戻る</button>
+              <button type="button" class="next-btn" id="submitBtn">結果を見る</button>
+            </div>
           </div>
-          <div class="options">
-            <label><input type="radio" name="q15" value="5" />とてもできる</label>
-            <label><input type="radio" name="q15" value="4" />だいたいできる</label>
-            <label><input type="radio" name="q15" value="3" />ときどき焦る</label>
-            <label><input type="radio" name="q15" value="2" />けっこう焦る</label>
-            <label><input type="radio" name="q15" value="1" />いつも急ぎがち</label>
-          </div>
-        </div>
-
-        <div class="nav-buttons">
-          <button type="button" id="prevBtn">＜ 前の質問</button>
-          <button type="button" id="nextBtn">次の質問 ＞</button>
         </div>
       </form>
 
-      <div id="result" class="result-card" style="display:none;">
+      <!-- 結果ページ -->
+      <div id="result" class="result-card">
         <div class="result-title">診断結果</div>
 
         <div class="result-main-score">
-          <div class="result-main-score-label">💗 あなたの恋愛能力指数</div>
-          <div class="result-main-score-value" id="mainScoreValue"></div>
+          <span class="result-main-label">💗 あなたの恋愛能力指数</span>
+          <span class="result-main-value" id="mainScoreValue"></span>
         </div>
 
-        <div class="type-label">
-          <div class="type-label-label">あなたの恋愛スタイルタイプ</div>
-          <div class="type-label-value" id="typeLabelValue"></div>
+        <div class="type-label-wrap">
+          <div class="type-label-title">あなたの恋愛スタイルタイプ</div>
+          <div class="type-label-value" id="typeLabel"></div>
         </div>
 
-        <div class="category-list">
-          <div class="category-heading">🌿 カテゴリ別の傾向</div>
-          <div id="categoryScores"></div>
-        </div>
+        <div class="category-list" id="categoryScores"></div>
 
-        <div class="section-heading">📄 タイプ解説</div>
-        <p class="result-message" id="typeMessage"></p>
+        <div class="section-title">📄 タイプ解説</div>
+        <div class="result-message" id="typeMessage"></div>
 
-        <div class="section-heading">📄 総合評価</div>
-        <p class="result-message" id="overallMessage"></p>
+        <div class="section-title">📄 総合評価</div>
+        <div class="result-message" id="overallComment"></div>
       </div>
 
       <p class="note">
@@ -442,34 +538,54 @@
   </div>
 
   <script>
-    const totalQuestions = 15;
-    let currentIndex = 1;
+    // ▼ 質問ページ切り替え
+    const totalSteps = 15;
+    let currentStep = 1;
+
+    const pages = document.querySelectorAll(".question-page");
+    const stepIndicator = document.getElementById("stepIndicator");
+    const quizForm = document.getElementById("quizForm");
+    const resultCard = document.getElementById("result");
+
+    function showStep(step) {
+      currentStep = step;
+      pages.forEach((p) => {
+        const s = Number(p.getAttribute("data-step"));
+        p.classList.toggle("active", s === step);
+      });
+      stepIndicator.textContent = "質問 " + step + " / " + totalSteps;
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("next-btn") && e.target.id !== "submitBtn") {
+        const next = Number(e.target.getAttribute("data-next"));
+        if (!validateCurrentStep()) return;
+        showStep(next);
+      }
+      if (e.target.classList.contains("prev-btn")) {
+        const prev = Number(e.target.getAttribute("data-prev"));
+        if (prev >= 1) showStep(prev);
+      }
+    });
+
+    function validateCurrentStep() {
+      const page = document.querySelector(
+        '.question-page[data-step="' + currentStep + '"]'
+      );
+      if (!page) return true;
+      const input = page.querySelector("input[type=radio]:checked");
+      if (!input) {
+        alert("この質問に答えてから進んでください。");
+        return false;
+      }
+      return true;
+    }
 
     function getValue(name) {
       const checked = document.querySelector(
         'input[name="' + name + '"]:checked'
       );
       return checked ? Number(checked.value) : null;
-    }
-
-    function showQuestion(index) {
-      for (let i = 1; i <= totalQuestions; i++) {
-        const block = document.querySelector('.question[data-q="' + i + '"]');
-        if (!block) continue;
-        block.style.display = i === index ? "block" : "none";
-      }
-      document.getElementById("progressText").textContent =
-        index + " / " + totalQuestions + " 問";
-
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-
-      prevBtn.disabled = index === 1;
-      if (index === totalQuestions) {
-        nextBtn.textContent = "結果を見る ＞";
-      } else {
-        nextBtn.textContent = "次の質問 ＞";
-      }
     }
 
     // ★ スター表示用：カテゴリスコア → ★＋一言コメント
@@ -496,41 +612,9 @@
       const ratio = score / max;
       if (ratio >= 0.85) return "かなり高め";
       if (ratio >= 0.7) return "高め";
-      if (ratio >= 0.5) return "やや高め"; // 修正済み
+      if (ratio >= 0.5) return "やや高め";
       if (ratio >= 0.3) return "やや弱め";
       return "弱め・これから伸ばせる";
-    }
-
-    function buildCategorySummary(norms) {
-      const labels = {
-        selfAxisN: "自己軸",
-        empathyN: "共感力",
-        distanceN: "距離感",
-        communicationN: "コミュ力",
-        selfUnderstandingN: "自己理解"
-      };
-      const entries = Object.keys(norms).map((k) => ({
-        key: k,
-        label: labels[k],
-        value: norms[k]
-      }));
-      entries.sort((a, b) => b.value - a.value);
-
-      const top = entries[0];
-      const bottom = entries[entries.length - 1];
-
-      const topTxt =
-        "あなたは「" +
-        top.label +
-        "」がとくに強めで、そのスタイルが恋愛全体の土台になっています。";
-      const bottomTxt =
-        "一方で「" +
-        bottom.label +
-        "」は、これから意識すればぐっと伸びていく余地がある部分。";
-      const tail =
-        "得意なところを活かしつつ、この弱めな1ポイントを整えていくと、恋愛全体のバランスがもっと取りやすくなります。";
-
-      return topTxt + " " + bottomTxt + " " + tail;
     }
 
     // 8タイプ判定
@@ -555,231 +639,234 @@
       let typeMessage = "";
 
       if (totalScore >= 60) {
-        if (empathyN >= 0.7 && distanceN >= 0.6) {
+        if (
+          (empathyN >= 0.7 || distanceN >= 0.7) &&
+          empathyN >= distanceN
+        ) {
           // ① 安定共感バランス型
           typeLabel = "安定共感バランス型";
           typeMessage =
             "相手の気持ちを丁寧に受け取りながら、自分のペースも大切にできる安定型。関係を急がず育てる力があり、信頼を時間とともに積み重ねていけます。あなたの「落ち着いた安心感」は、相手にとって大きな魅力になります。";
+        } else if (selfAxisN === maxNorm) {
+          // ④ 主体性アクティブ型寄り
+          typeLabel = "主体性アクティブ型";
+          typeMessage =
+            "自分の意思やテンポを持ち、恋愛においても行動力が高いタイプ。決断力があるので関係が進みやすい反面、相手のペースを尊重できるとより相性が安定します。主導権を握りながらも協調できると強い関係を築けます。";
+        } else if (communicationN === maxNorm) {
+          // ⑦ 情熱ストレート型寄り
+          typeLabel = "情熱ストレート型";
+          typeMessage =
+            "好きになったらまっすぐ向き合いたい、エネルギッシュで誠実なタイプ。気持ちを伝える力が強く、相手にとってわかりやすい魅力があります。少しだけ相手のペースを感じ取れると、よりスムーズな関係に。";
         } else if (selfUnderstandingN === maxNorm) {
           // ⑥ 自己理解クリア型
           typeLabel = "自己理解クリア型";
           typeMessage =
             "自分の感情・価値観に敏感で、「どうしたいか」をはっきり理解できるタイプ。恋愛でも迷いが少なく、誠実で透明度の高い関係を育てられます。相手にその“内面的な明るさ”が自然と伝わり、安心感を生みます。";
-        } else if (selfAxisN === maxNorm) {
-          // ④ 主体性アクティブ型
-          typeLabel = "主体性アクティブ型";
-          typeMessage =
-            "自分の意思やテンポを持ち、恋愛においても行動力が高いタイプ。決断力があるので関係が進みやすい反面、相手のペースを尊重できるとより相性が安定します。主導権を握りながらも協調できると強い関係を築けます。";
-        } else if (communicationN === maxNorm) {
-          // ⑦ 情熱ストレート型
-          typeLabel = "情熱ストレート型";
-          typeMessage =
-            "好きになったらまっすぐ向き合いたい、エネルギッシュで誠実なタイプ。気持ちを伝える力が強く、相手にとってわかりやすい魅力があります。少しだけ相手のペースを感じ取れると、よりスムーズな関係に。";
-        } else if (distanceN === maxNorm) {
+        } else {
           // ⑤ 距離感コンフォート型
           typeLabel = "距離感コンフォート型";
           typeMessage =
             "一人の時間を大切にでき、恋愛も落ち着いたペースで育てたいタイプ。近すぎず遠すぎずの絶妙な距離を作るのが上手で、安心できる関係を目指します。「適度な交流＋丁寧なコミュニケーション」でより関係が深まります。";
-        } else {
-          // デフォルト：安定共感
-          typeLabel = "安定共感バランス型";
-          typeMessage =
-            "相手の気持ちと自分のペースの両方を大事にしやすい、バランスの整ったタイプ。今の感覚をベースに、少しずつ行動のパターンを整えていくと、さらに安定した関係を築けます。";
         }
       } else if (totalScore >= 45) {
-        if (empathyN === maxNorm && selfAxisN < 0.5) {
-          // ③ 共感やさしさ特化型
-          typeLabel = "共感やさしさ特化型";
-          typeMessage =
-            "相手の気持ちに寄り添う力がとても高く、安心感を与えられる存在。ただし自分を後回しにしやすいので、同じくらい “自分の気持ちも大事にする” と恋愛満足度が上がります。やさしさが関係の土台になるタイプです。";
-        } else if (distanceN === maxNorm && communicationN < 0.5) {
-          // ⑧ 繊細ていねい慎重型
-          typeLabel = "繊細ていねい慎重型";
-          typeMessage =
-            "慎重で思慮深く、関係を丁寧に積み重ねたいタイプ。一度信頼が生まれると深い絆を育てられます。ゆっくり進めるスタイルが合うので、焦らず安心できるペースが最も大切。";
-        } else if (selfUnderstandingN === maxNorm) {
+        if (selfUnderstandingN === maxNorm) {
           // ② 内省マイペース型
           typeLabel = "内省マイペース型";
           typeMessage =
             "一度距離を置いてじっくり考えたいタイプ。自分の感情を理解しようとする姿勢が強く、誠実で丁寧な恋愛を好みます。少しだけ“連絡・行動のペース”を共有すると、関係のスムーズさが増していきます。";
-        } else if (selfAxisN === maxNorm) {
-          // ④ 主体性アクティブ型
-          typeLabel = "主体性アクティブ型";
+        } else if (distanceN === maxNorm) {
+          // ⑤ 距離感コンフォート型寄り
+          typeLabel = "距離感コンフォート型";
           typeMessage =
-            "自分なりの考えやペースを持っていて、恋愛でも主導権を握りやすいタイプ。相手の気持ちやタイミングも一緒に確認していくと、安心してついてきてもらえる関係になりやすいです。";
-        } else if (communicationN === maxNorm) {
-          // ⑦ 情熱ストレート型
+            "一人の時間や自分のペースを大事にしながら、恋愛も落ち着いたテンポで進めたいタイプ。無理なく続く関係を大事にできます。『ここは一歩だけ近づいてみようかな』という場面を増やすと、出会いのチャンスも広がります。";
+        } else if (empathyN === maxNorm && selfAxisN < 0.5) {
+          // ③ 共感やさしさ特化型
+          typeLabel = "共感やさしさ特化型";
+          typeMessage =
+            "相手の気持ちに寄り添う力がとても高く、安心感を与えられる存在。ただし自分を後回しにしやすいので、同じくらい “自分の気持ちも大事にする” と恋愛満足度が上がります。やさしさが関係の土台になるタイプです。";
+        } else if (communicationN === maxNorm && distanceN < 0.5) {
+          // ⑦ 情熱ストレート型（中スコア帯）
           typeLabel = "情熱ストレート型";
           typeMessage =
-            "素直でストレートな表現ができるタイプ。距離が縮まりやすい分、相手の不安ポイントにも時々目を向けてみると、信頼感が一気に増していきます。";
+            "気になると一気に距離を縮めたくなる、エネルギッシュなタイプ。好意がわかりやすく伝わる一方で、相手の準備が整う前に進みすぎてしまうことも。「一拍おいて、相手の反応を見る」クセをつけると、誠実さがより好印象につながります。";
         } else {
-          // ① 安定共感バランス寄り
-          typeLabel = "安定共感バランス型";
-          typeMessage =
-            "大きな偏りはなく、全体としてバランスが取りやすいタイプ。どこか1つを極端に変えるより、「これだけは大事にしたい軸」を1つ決めることで、さらに安定した恋愛スタイルが固まりやすくなります。";
-        }
-      } else {
-        // 低〜中スコア帯
-        if (distanceN >= 0.6) {
-          // ⑧ 繊細ていねい慎重型
+          // ① 安定共感バランス or ⑧ 繊細ていねい慎重型の中間
           typeLabel = "繊細ていねい慎重型";
           typeMessage =
-            "慎重で思慮深く、関係を丁寧に積み重ねたいタイプ。スピード勝負よりも「安心して話せること」を何より大切にするスタイルです。ゆっくり進めてOKなので、自分のペースを責めないことがポイント。";
-        } else if (empathyN >= 0.6 && selfAxisN < 0.4) {
+            "慎重で思慮深く、関係を丁寧に積み重ねたいタイプ。一度信頼が生まれると深い絆を育てられます。ゆっくり進めるスタイルが合うので、焦らず安心できるペースが最も大切です。";
+        }
+      } else if (totalScore >= 30) {
+        if (communicationN > 0.6 && distanceN < 0.5) {
+          // ⑦ 情熱ストレート型（慎重さ弱め）
+          typeLabel = "情熱ストレート型";
+          typeMessage =
+            "好きになると気持ちが一気に動きやすく、まっすぐにアプローチしたくなるタイプ。熱量は大きな魅力なので、そのまま大事にしつつ『相手の不安やペースはどうかな？』と一瞬考えるだけで、安心されるアプローチに変えていけます。";
+        } else if (empathyN > 0.6 && selfAxisN < 0.4) {
           // ③ 共感やさしさ特化型（自己犠牲寄り）
           typeLabel = "共感やさしさ特化型";
           typeMessage =
-            "相手を優先しやすく、自分の気持ちを脇に置きがちなスタイルです。「NOを言っても嫌われない」経験を少しずつ積むことで、恋愛が“我慢の場所”から“安心できる場所”に変わっていきます。";
-        } else if (selfUnderstandingN >= 0.6) {
-          // ② 内省マイペース型寄り
-          typeLabel = "内省マイペース型";
-          typeMessage =
-            "自分の心の動きをよく観察しているタイプ。今は慎重さが前に出やすいかもしれませんが、小さな一歩を重ねることで、納得感のある恋愛に近づいていきます。";
-        } else {
-          // ⑧ に寄せる（繊細・慎重）
+            "相手の気持ちを優先しやすく、聞き役・支え役になりやすいタイプ。『それをすると自分はどう感じる？』と自分側の感情も確認していくと、無理のない“お互いさまな関係”に近づいていきます。";
+        } else if (distanceN > 0.6) {
+          // ⑧ 繊細ていねい慎重型寄り
           typeLabel = "繊細ていねい慎重型";
           typeMessage =
-            "今は恋愛に慎重で、一歩踏み出すまでに時間がかかる状態かもしれません。ただこれは“遅い”のではなく、“丁寧に選びたい”気持ちの表れ。安心できる相手との小さなやり取りから、少しずつ感覚を慣らしていくのがおすすめです。";
+            "慎重さと観察力があり、相手をよく見ながら少しずつ距離を縮めるタイプ。スピードはゆっくりですが、その分“長く続く関係”を作りやすいスタイルです。小さな一歩を積み重ねるイメージがしっくりくる人です。";
+        } else {
+          // ② 内省マイペース型（やや低スコア帯）
+          typeLabel = "内省マイペース型";
+          typeMessage =
+            "自分の内側を大事にしながら、慎重に恋愛と向き合いたいタイプ。『ちゃんと向き合いたいからこそ、軽いノリになれない』という真面目さがあります。小さな行動でOKなので、“考えたことを一つ形にする”を意識すると、恋の流れが動き出します。";
         }
+      } else {
+        // ⑧ 繊細ていねい慎重型 ＋ リハビリ寄り
+        typeLabel = "繊細ていねい慎重型";
+        typeMessage =
+          "今は恋愛に対して少し守りモードが強くなっている段階かもしれません。これは“ダメなこと”ではなく、心を守るための自然な反応です。安心できる相手や環境で、小さな対話や交流から慣らしていくと、自分らしいペースを取り戻していけます。";
       }
 
       return { typeLabel, typeMessage };
     }
 
-    document.getElementById("prevBtn").addEventListener("click", function () {
-      if (currentIndex > 1) {
-        currentIndex--;
-        showQuestion(currentIndex);
-      }
-    });
+    // カテゴリ全体コメント
+    function buildOverallComment(norms) {
+      const entries = [
+        { key: "selfAxisN", label: "自己軸" },
+        { key: "empathyN", label: "共感力" },
+        { key: "distanceN", label: "距離感" },
+        { key: "communicationN", label: "コミュ力" },
+        { key: "selfUnderstandingN", label: "自己理解" }
+      ];
 
-    document.getElementById("nextBtn").addEventListener("click", function () {
-      // 現在の質問に未回答なら進めない
-      const currentVal = getValue("q" + currentIndex);
-      if (currentVal === null) {
-        alert("まだ答えていない質問があります（" + currentIndex + "問目）。");
-        return;
-      }
+      const sorted = [...entries].sort(
+        (a, b) => norms[b.key] - norms[a.key]
+      );
+      const top = sorted[0];
+      const bottom = sorted[sorted.length - 1];
 
-      if (currentIndex < totalQuestions) {
-        currentIndex++;
-        showQuestion(currentIndex);
-      } else {
-        // 最後の質問 → 結果計算
-        const answers = [];
-        for (let i = 1; i <= totalQuestions; i++) {
-          const v = getValue("q" + i);
-          if (v === null) {
-            alert("まだ答えていない質問があります（" + i + "問目）。");
-            return;
-          }
-          answers[i] = v;
+      let msg = "";
+
+      msg +=
+        "全体として、あなたは「" +
+        top.label +
+        "」が特に強みとして表れているタイプです。";
+
+      msg +=
+        " 一方で「" +
+        bottom.label +
+        "」は、今後意識して育てていくとバランスが整いやすいポイント。";
+
+      msg +=
+        " 得意な部分をそのまま活かしつつ、弱めのところを少しだけケアしていくことで、恋愛全体の安定感と満足度がぐっと高まっていきます。";
+
+      return msg;
+    }
+
+    // ▼ 結果ボタン
+    document.getElementById("submitBtn").addEventListener("click", function () {
+      if (!validateCurrentStep()) return;
+
+      const answers = [];
+      for (let i = 1; i <= 15; i++) {
+        const v = getValue("q" + i);
+        if (v === null) {
+          alert("まだ答えていない質問があります（" + i + "問目）。");
+          return;
         }
-
-        // トータルスコア（最大75）
-        const totalScore = answers.slice(1).reduce((a, b) => a + b, 0);
-
-        // カテゴリ別スコア（あなたが決めた割り当て）
-        // 1 communication
-        // 2 empathy
-        // 3 empathy
-        // 4 communication
-        // 5 distance
-        // 6 self_axis
-        // 7 self_understanding
-        // 8 empathy
-        // 9 distance
-        // 10 self_axis
-        // 11 self_understanding
-        // 12 empathy
-        // 13 distance
-        // 14 self_axis
-        // 15 self_understanding
-
-        const communication = answers[1] + answers[4]; // /10
-        const empathy = answers[2] + answers[3] + answers[8] + answers[12]; // /20
-        const distance = answers[5] + answers[9] + answers[13]; // /15
-        const selfAxis = answers[6] + answers[10] + answers[14]; // /15
-        const selfUnderstanding =
-          answers[7] + answers[11] + answers[15]; // /15
-
-        const maxComm = 10;
-        const maxEmp = 20;
-        const maxDist = 15;
-        const maxAxis = 15;
-        const maxSelfU = 15;
-
-        const norms = {
-          selfAxisN: selfAxis / maxAxis,
-          empathyN: empathy / maxEmp,
-          distanceN: distance / maxDist,
-          communicationN: communication / maxComm,
-          selfUnderstandingN: selfUnderstanding / maxSelfU
-        };
-
-        const { typeLabel, typeMessage } = decideType(totalScore, norms);
-        const overallText = buildCategorySummary(norms);
-
-        // メインスコア表示（総合）
-        document.getElementById("mainScoreValue").textContent =
-          totalScore + " / 75";
-
-        document.getElementById("typeLabelValue").textContent = typeLabel;
-
-        // カテゴリ★表示
-        const catLines = [];
-        catLines.push(
-          "自己軸　：" +
-            toStars(selfAxis, maxAxis) +
-            "（" +
-            levelComment(selfAxis, maxAxis) +
-            "）"
-        );
-        catLines.push(
-          "共感力　：" +
-            toStars(empathy, maxEmp) +
-            "（" +
-            levelComment(empathy, maxEmp) +
-            "）"
-        );
-        catLines.push(
-          "距離感　：" +
-            toStars(distance, maxDist) +
-            "（" +
-            levelComment(distance, maxDist) +
-            "）"
-        );
-        catLines.push(
-          "コミュ力：" +
-            toStars(communication, maxComm) +
-            "（" +
-            levelComment(communication, maxComm) +
-            "）"
-        );
-        catLines.push(
-          "自己理解：" +
-            toStars(selfUnderstanding, maxSelfU) +
-            "（" +
-            levelComment(selfUnderstanding, maxSelfU) +
-            "）"
-        );
-
-        document.getElementById("categoryScores").innerHTML =
-          catLines.join("<br>");
-
-        document.getElementById("typeMessage").textContent = typeMessage;
-        document.getElementById("overallMessage").textContent = overallText;
-
-        // フォームはそのまま上に残しつつ、結果だけ表示
-        document.getElementById("result").style.display = "block";
-        document
-          .getElementById("result")
-          .scrollIntoView({ behavior: "smooth" });
+        answers[i] = v;
       }
-    });
 
-    // 初期表示
-    showQuestion(currentIndex);
+      // トータルスコア（最大75）
+      const totalScore = answers.slice(1).reduce((a, b) => a + b, 0);
+
+      // カテゴリ別スコア
+      // 1 communication / 2 empathy / 3 empathy / 4 communication
+      // 5 distance / 6 self_axis / 7 self_understanding / 8 empathy
+      // 9 distance / 10 self_axis / 11 self_understanding / 12 empathy
+      // 13 distance / 14 self_axis / 15 self_understanding
+      const communication = answers[1] + answers[4]; // /10
+      const empathy = answers[2] + answers[3] + answers[8] + answers[12]; // /20
+      const distance = answers[5] + answers[9] + answers[13]; // /15
+      const selfAxis = answers[6] + answers[10] + answers[14]; // /15
+      const selfUnderstanding =
+        answers[7] + answers[11] + answers[15]; // /15
+
+      const maxComm = 10;
+      const maxEmp = 20;
+      const maxDist = 15;
+      const maxAxis = 15;
+      const maxSelfU = 15;
+
+      const norms = {
+        selfAxisN: selfAxis / maxAxis,
+        empathyN: empathy / maxEmp,
+        distanceN: distance / maxDist,
+        communicationN: communication / maxComm,
+        selfUnderstandingN: selfUnderstanding / maxSelfU
+      };
+
+      const { typeLabel, typeMessage } = decideType(totalScore, norms);
+      const overallComment = buildOverallComment(norms);
+
+      // メインスコア表示
+      document.getElementById("mainScoreValue").textContent =
+        totalScore + " / 75";
+
+      // タイプ名
+      document.getElementById("typeLabel").textContent = typeLabel;
+
+      // カテゴリ★表示
+      const catLines = [];
+      catLines.push(
+        "自己軸　：" +
+          toStars(selfAxis, maxAxis) +
+          "（" +
+          levelComment(selfAxis, maxAxis) +
+          "）"
+      );
+      catLines.push(
+        "共感力　：" +
+          toStars(empathy, maxEmp) +
+          "（" +
+          levelComment(empathy, maxEmp) +
+          "）"
+      );
+      catLines.push(
+        "距離感　：" +
+          toStars(distance, maxDist) +
+          "（" +
+          levelComment(distance, maxDist) +
+          "）"
+      );
+      catLines.push(
+        "コミュ力：" +
+          toStars(communication, maxComm) +
+          "（" +
+          levelComment(communication, maxComm) +
+          "）"
+      );
+      catLines.push(
+        "自己理解：" +
+          toStars(selfUnderstanding, maxSelfU) +
+          "（" +
+          levelComment(selfUnderstanding, maxSelfU) +
+          "）"
+      );
+
+      document.getElementById("categoryScores").innerHTML =
+        "🌿 カテゴリ別の傾向<br>" + catLines.join("<br>");
+
+      // タイプ解説
+      document.getElementById("typeMessage").textContent = typeMessage;
+
+      // 総合評価（カテゴリ全体コメント）
+      document.getElementById("overallComment").textContent = overallComment;
+
+      // フォーム（質問ページ）を隠して、結果ページだけ見せる＝単体ページ風
+      quizForm.style.display = "none";
+      stepIndicator.textContent = "診断結果";
+      resultCard.style.display = "block";
+      resultCard.scrollIntoView({ behavior: "smooth" });
+    });
   </script>
 </body>
 </html>
